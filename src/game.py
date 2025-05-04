@@ -1,4 +1,5 @@
 import sys
+from collections import deque
 
 import pygame as pg
 from pygame import Surface, Rect
@@ -20,7 +21,8 @@ class Game:
         self.screen_rect: Rect = self.screen.get_rect()
 
         if 'caption' in DEBUG:
-            self.dt_list: list[int] = []
+            maxlen: int = int(FPS_AVE_TIME * FPS)
+            self.dt_list: list[int] = deque(maxlen=maxlen)
 
         self.clock = pg.time.Clock()
 
@@ -28,8 +30,8 @@ class Game:
     
     def run(self) -> None:
         keep_running: bool = True
-        dt: int = self.clock.tick(FPS)
         while keep_running:
+            dt: int = self.clock.tick(FPS)
             if 'caption' in DEBUG:
                 self.update_caption(dt)
             for event in pg.event.get():
@@ -42,14 +44,11 @@ class Game:
     def update_caption(self, dt: int) -> None:
         mx, my = pg.mouse.get_pos()
         tmp_mouse: str = f'Mouse: ({mx}, {my})'
-        
+
         self.dt_list.append(dt)
-        dt_array: NDArray = np.array(self.dt_list, dtype=np.float64)*0.001
-        while np.sum(dt_array) > FPS_AVE_TIME:
-            del self.dt_list[0]
-            dt_array = np.array(self.dt_list, dtype=np.float64)*0.001
+        dt_array: NDArray = np.array(self.dt_list)
         num_frames: int = len(self.dt_list)
-        tot_time: float = max(np.sum(dt_array), 0.001)
+        tot_time: float = max(float(np.sum(dt_array)), 1.0)*0.001
         fps: float = num_frames / tot_time
         tmp_fps: str = f'FPS: {num_frames} / {tot_time:.3f} = {fps:.1f}'
         tmp_screen: str = f'Screen: {self.screen_rect.width} x {self.screen.height}'
