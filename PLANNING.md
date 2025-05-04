@@ -16,3 +16,9 @@
             --Choose the tag you just pushed (v0.1.0)
             --Add a release title (e.g., "Initial Release")
             --Add release notes describing what's included (in CHANGELOG.md)
+
+## Stage 0.1 -- Game object, unit testing, first release of version 0.1.0
+1. Establish Game class entry point to game. Game is launched by simply initializing the Game object in main.py
+2. Establish unit testing, implement testing for game.py functions
+3. Modify Game class to accept an "auto_run" boolean (defaulted to True) of False to suppress Game object from starting the event loop for the purpose of test script.
+4. Introduce CHANGELOG.md and push v 0.1.0 release to GitHub 

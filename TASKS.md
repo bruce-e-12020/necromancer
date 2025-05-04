@@ -13,4 +13,6 @@
 [x] Set up update_caption to track FPS, display screen size, and display mouse pointer position
 [x] Set up unit testing using pytest
 [x] Set up unit testing for functions in game.py
+[x] Add CHANGELOG.md to track major/minor versions
+[x] Push new version 0.1.0 to GitHub
 
