@@ -9,7 +9,7 @@ from numpy.typing import NDArray
 from .settings import SCREEN_MARGIN, CAPTION, DEBUG, FPS, FPS_AVE_TIME
 
 class Game:
-    def __init__(self) -> None:
+    def __init__(self, auto_run: bool = True) -> None:
         pg.init()
         monitor_info = pg.display.Info()
         mw: int = monitor_info.current_w
@@ -26,7 +26,8 @@ class Game:
 
         self.clock = pg.time.Clock()
 
-        self.run()
+        if auto_run: # auto_run set to False by pytest
+            self.run()
     
     def run(self) -> None:
         keep_running: bool = True
