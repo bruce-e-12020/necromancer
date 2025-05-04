@@ -23,6 +23,8 @@ class Game:
         if 'caption' in DEBUG:
             maxlen: int = int(FPS_AVE_TIME * FPS)
             self.dt_list: list[int] = deque(maxlen=maxlen)
+        else:
+            self.dt_list = None
 
         self.clock = pg.time.Clock()
 
@@ -43,6 +45,8 @@ class Game:
             pg.display.update()
     
     def update_caption(self, dt: int) -> None:
+        if self.dt_list is None:
+            return None
         mx, my = pg.mouse.get_pos()
         tmp_mouse: str = f'Mouse: ({mx}, {my})'
 

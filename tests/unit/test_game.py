@@ -44,7 +44,7 @@ def test_screen_dimensions(monitor_dimensions, game):
 
     expected_width = monitor_dimensions[0] - 2 * SCREEN_MARGIN
     expected_height = monitor_dimensions[1] - 2 * SCREEN_MARGIN 
-    # for debugging, use pytest -v -s to show these print statements
+    # for debugging, use pytest -v -s to show these print statements``
     print(f"\nmonitor: {monitor_dimensions}")
     print(f"expected: ({expected_width}, {expected_height})")
     print(f"screen: ({game.screen_rect.width}, {game.screen_rect.height})\n")
@@ -57,13 +57,20 @@ def test_fps_tracking_initialization(game):
     if 'caption' in DEBUG:
         expected_maxlen = int(FPS_AVE_TIME * FPS)
         assert game.dt_list.maxlen == expected_maxlen
+    else:
+        assert game.dt_list is None
 
 def test_update_caption(game):
     """Test if caption updates include all required information"""
-    game.update_caption(16)  # Simulate ~60fps frame time
-    caption = pg.display.get_caption()[0]
-    
-    assert CAPTION in caption
-    assert 'FPS:' in caption
-    assert 'Screen:' in caption
-    assert 'Mouse:' in caption
+    # Only test update_caption if 'caption' is in DEBUG
+    if 'caption' in DEBUG:
+        game.update_caption(16)  # Simulate ~60fps frame time
+        caption = pg.display.get_caption()[0]
+        
+        assert CAPTION in caption
+        assert 'FPS:' in caption
+        assert 'Screen:' in caption
+        assert 'Mouse:' in caption
+    else:
+        caption = pg.display.get_caption()[0]
+        assert CAPTION in caption
